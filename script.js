@@ -1,27 +1,25 @@
-const cards = document.querySelectorAll('.cards');
-const overlay = document.querySelector('.overlay');
+const cards = document.querySelectorAll(".cards");
+const overlay = document.querySelector(".overlay");
 let activeCard = null;
 
 cards.forEach(card => {
-  card.addEventListener('click', e => {
-    e.stopPropagation();
+  card.addEventListener("click", () => {
+    if (card.classList.contains("active")) return;
 
-    if (activeCard === card) return;
+    // Remove ativo anterior
+    if (activeCard) activeCard.classList.remove("active");
 
-    if (activeCard) {
-      activeCard.classList.remove('active');
-    }
-
-    card.classList.add('active');
-    overlay.classList.add('active');
+    // Ativa o novo
+    card.classList.add("active");
+    overlay.classList.add("active");
+    document.body.classList.add("active-grid");
     activeCard = card;
   });
 });
 
-document.addEventListener('click', e => {
-  if (activeCard && !activeCard.contains(e.target)) {
-    activeCard.classList.remove('active');
-    overlay.classList.remove('active');
-    activeCard = null;
-  }
+overlay.addEventListener("click", () => {
+  overlay.classList.remove("active");
+  document.body.classList.remove("active-grid");
+  if (activeCard) activeCard.classList.remove("active");
+  activeCard = null;
 });
